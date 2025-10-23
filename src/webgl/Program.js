@@ -1,11 +1,12 @@
 import { Shader } from './Shader.js';
 
 export class Program {
-    constructor(gl, vertexSource, fragmentSource) {
+    constructor(gl, vertexSource, fragmentSource, options = {}) {
         this.gl = gl;
         this.program = null;
         this.uniforms = {};
         this.attributes = {};
+        this.transformFeedbackVaryings = options.transformFeedbackVaryings || null;
         
         this.vertexShader = Shader.createVertexShader(gl, vertexSource);
         this.fragmentShader = Shader.createFragmentShader(gl, fragmentSource);
@@ -24,6 +25,11 @@ export class Program {
 
         gl.attachShader(this.program, this.vertexShader.getShader());
         gl.attachShader(this.program, this.fragmentShader.getShader());
+        
+        if (this.transformFeedbackVaryings && this.transformFeedbackVaryings.length > 0) {
+            gl.transformFeedbackVaryings(this.program, this.transformFeedbackVaryings, gl.INTERLEAVED_ATTRIBS);
+        }
+        
         gl.linkProgram(this.program);
 
         if (!gl.getProgramParameter(this.program, gl.LINK_STATUS)) {
