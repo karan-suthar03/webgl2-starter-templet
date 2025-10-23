@@ -51,6 +51,33 @@ export class VertexArray {
         this.unbind();
     }
 
+    addAttributeWithStride(index, buffer, size, stride, offset, type = null, normalized = false) {
+        const gl = this.gl;
+        
+        if (type === null) {
+            type = gl.FLOAT;
+        }
+
+        this.bind();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        
+        gl.enableVertexAttribArray(index);
+        gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
+        
+        this.attributes.push({
+            index,
+            buffer,
+            size,
+            type,
+            normalized,
+            stride,
+            offset
+        });
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        this.unbind();
+    }
+
     draw(mode, count, offset = 0) {
         const gl = this.gl;
         this.bind();
