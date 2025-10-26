@@ -1,0 +1,14 @@
+{
+  "name": "webgl-sample-project",
+  "version": "1.0.0",
+  "description": "WebGL2 sample project",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vite": "^7.1.12"
+  }
+}
